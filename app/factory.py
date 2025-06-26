@@ -1,16 +1,18 @@
 from flask import Flask
 from config import Config
-from .models import db
+from .database import db
+from .controllers import cliente_bp, cidade_bp, frete_bp
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Inicializa o SQLAlchemy com a configuração da nossa aplicação
+    # Inicializa o SQLAlchemy
     db.init_app(app)
 
-    # Importar e registrar as rotas da API aqui no futuro
-    # from .routes import main_bp
-    # app.register_blueprint(main_bp)
+    # Registra os blueprints
+    app.register_blueprint(cliente_bp, url_prefix='/api/clientes')
+    app.register_blueprint(cidade_bp, url_prefix='/api/cidades')
+    app.register_blueprint(frete_bp, url_prefix='/api/fretes')
 
     return app

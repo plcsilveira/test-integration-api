@@ -13,7 +13,6 @@ test-integration-api/
 │   │   ├── cliente.py      # Modelo Cliente (nome, endereco, telefone)
 │   │   ├── cidade.py       # Modelo Cidade (nome, uf, taxa)
 │   │   ├── frete.py        # Modelo Frete (descricao, peso, valor, cliente_id, cidade_id)
-│   │   
 │   │
 │   ├── schemas/           # Schemas Pydantic para validação da API
 │   │   ├── __init__.py     # Exporta os schemas
@@ -26,26 +25,34 @@ test-integration-api/
 │   │   ├── cliente.py      # ClienteRepo (cadastro, busca por telefone)
 │   │   ├── cidade.py       # CidadeRepo (cadastro, busca por nome)
 │   │   ├── frete.py        # FreteRepo (cadastro, busca por cliente, ordenação)
-│   │   └── tests/          # Testes dos repositórios
 │   │
 │   ├── services/          # Camada de Serviço (Regras de Negócio)
 │   │   ├── __init__.py     # Exporta os serviços
 │   │   ├── cliente.py      # ClienteService (validações de negócio)
 │   │   ├── cidade.py       # CidadeService (validações de negócio)
 │   │   ├── frete.py        # FreteService (cálculo valor, validações, stats)
-│   │   └── tests/          # Testes dos serviços
 │   │
 │   └── controllers/       # Camada de Controle (API REST)
 │       ├── __init__.py     # Configuração dos blueprints
 │       ├── cliente.py      # Endpoints de Cliente
 │       ├── cidade.py       # Endpoints de Cidade
 │       ├── frete.py        # Endpoints de Frete
-│       └── tests/          # Testes dos controllers
 │
-├── tests/                 # Testes de Integração de Sistema
+├── tests/                 # Testes do projeto
 │   ├── __init__.py
 │   ├── conftest.py        # Fixtures globais (app, client, db em memória)
-│   └── test_integration_frete.py                   
+│   ├── models/           # Testes dos modelos
+│   │   ├── unit/         # Testes unitários
+│   │   └── int/          # Testes de integração
+│   ├── repository/       # Testes dos repositórios
+│   │   ├── unit/         # Ex: test_cliente_repository.py
+│   │   └── int/          # Ex: test_cliente_repository_integration.py
+│   ├── services/        # Testes dos serviços
+│   │   ├── unit/         # Ex: test_frete_service.py
+│   │   └── int/          # Ex: test_frete_service_integration.py
+│   └── controllers/     # Testes dos controllers
+│       ├── unit/         # Ex: test_frete_controller.py
+│       └── int/          # Ex: test_frete_controller_integration.py
 │
 ├── config.py             # Arquivo de configurações
 ├── run.py                # Script para iniciar a aplicação
