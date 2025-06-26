@@ -1,5 +1,6 @@
 # test-integration-api
 
+---
 transportadora_api/
 │
 ├── app/                  # O pacote principal da sua aplicação Flask
@@ -20,3 +21,5 @@ transportadora_api/
 ├── config.py             # Arquivo de configurações
 ├── run.py                # Script para iniciar a aplicação
 └── requirements.txt      # Lista de dependências do projeto
+
+---
