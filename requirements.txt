@@ -1,0 +1,5 @@
+Flask
+Flask-SQLAlchemy
+pydantic         # Para validação de dados da API
+pytest
+pytest-flask
