@@ -1,7 +1,7 @@
 # test-integration-api
 
 ```
-transportadora_api/
+test-integration-api/
 │
 ├── app/                  # O pacote principal da sua aplicação Flask
 │   ├── __init__.py       # Arquivo de inicialização (contém a Application Factory)
