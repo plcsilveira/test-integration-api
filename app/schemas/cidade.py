@@ -1,9 +1,10 @@
-from pydantic import BaseModel, constr, confloat
+from pydantic import BaseModel, Field
+from typing import Annotated
 
 class CidadeSchema(BaseModel):
-    nome: constr(min_length=1, max_length=30)
-    uf: constr(min_length=2, max_length=2)
-    taxa: confloat(gt=0)  # valor deve ser maior que 0
+    nome: Annotated[str, Field(min_length=1, max_length=30)]
+    UF: Annotated[str, Field(min_length=1, max_length=30)]
+    taxa: Annotated[float, Field(gt=0)]
     
     class Config:
         from_attributes = True

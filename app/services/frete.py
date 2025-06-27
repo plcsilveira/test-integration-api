@@ -1,41 +1,38 @@
-from app.repository import FreteRepository
-from app.models import Cliente, Cidade
+from app.repository.cliente import ClienteRepository
+from app.repository.cidade import CidadeRepository
+from app.repository.frete import FreteRepository
+from app.models.frete import Frete
 
 VALOR_FIXO = 10.0  # R$ 10,00 por kg
 
 class FreteService:
-    def __init__(self, repository: FreteRepository):
-        self.repository = repository
+    def __init__(self, frete_repo: FreteRepository, cliente_repo: ClienteRepository, cidade_repo: CidadeRepository):
+        self.frete_repo = frete_repo
+        self.cliente_repo = cliente_repo
+        self.cidade_repo = cidade_repo
     
     def calcular_valor(self, peso: float, taxa_cidade: float) -> float:
         return peso * VALOR_FIXO + taxa_cidade
     
-    def criar_frete(self, descricao: str, peso: float, 
-                   codigo_cliente: int, codigo_cidade: int):
-        # Verifica se cliente existe
-        cliente = Cliente.query.get(codigo_cliente)
+    def criar_frete(self, descricao: str, peso: float, codigo_cliente: int, codigo_cidade: int) -> Frete:
+        cliente = self.cliente_repo.find_by_id(codigo_cliente)
         if not cliente:
             raise ValueError("Cliente não encontrado")
-        
-        # Verifica se cidade existe
-        cidade = Cidade.query.get(codigo_cidade)
+        cidade = self.cidade_repo.find_by_id(codigo_cidade)
         if not cidade:
             raise ValueError("Cidade não encontrada")
-        
-        # Calcula valor do frete
         valor = self.calcular_valor(peso, cidade.taxa)
-        
-        # Cria o frete
-        return self.repository.create(
+        frete = Frete(
             descricao=descricao,
             peso=peso,
             valor=valor,
             codigo_cliente=codigo_cliente,
             codigo_cidade=codigo_cidade
         )
-    
-    def buscar_por_cliente(self, codigo_cliente: int):
-        return self.repository.busca_por_cliente(codigo_cliente)
-    
-    def frete_maior_valor(self):
-        return self.repository.maior_valor()
+        return self.frete_repo.save(frete)
+
+    def frete_maior_valor(self) -> Frete | None:
+        return self.frete_repo.find_maior_valor()
+
+    def cidade_com_mais_fretes(self):
+        return self.frete_repo.find_cidade_com_mais_fretes()

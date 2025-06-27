@@ -1,9 +1,10 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, Field
+from typing import Annotated
 
 class ClienteSchema(BaseModel):
-    nome: constr(min_length=1, max_length=30)
-    endereco: constr(min_length=1, max_length=30)
-    telefone: constr(min_length=1, max_length=30)
+    nome: Annotated[str, Field(max_length=30)]
+    endereco: Annotated[str, Field(max_length=30)]
+    telefone: Annotated[str, Field(max_length=30)]
     
     class Config:
         from_attributes = True  # permite conversão de SQLAlchemy model para Pydantic

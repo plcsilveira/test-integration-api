@@ -1,16 +1,14 @@
 from app.database import db
-from app.models import Cidade
+from app.models.cidade import Cidade
 
 class CidadeRepository:
-    def create(self, nome: str, uf: str, taxa: float) -> Cidade:
-        cidade = Cidade(
-            nome=nome,
-            uf=uf,
-            taxa=taxa
-        )
+    def save(self, cidade: Cidade) -> Cidade:
         db.session.add(cidade)
         db.session.commit()
         return cidade
-    
-    def busca_por_nome(self, nome: str) -> Cidade:
+
+    def find_by_nome(self, nome: str) -> Cidade | None:
         return Cidade.query.filter_by(nome=nome).first()
+
+    def find_by_id(self, codigo_cidade: int) -> Cidade | None:
+        return Cidade.query.get(codigo_cidade)
